@@ -1,0 +1,32 @@
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled]
+    branches-ignore:
+      - main
+
+name: Changelog
+jobs:
+  changelog-check:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        with:
+          script: |
+            const labels = await github.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+            });
+            if(labels.data.find(i => i.name === 'no-changelog-required')) {
+              return
+            }
+            const files = await github.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              per_page: 100
+            });
+            if(!files.data.find(file => file.filename === 'CHANGELOG.md')) {
+              core.setFailed('Changelog is required!');
+            }

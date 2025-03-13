@@ -1,0 +1,52 @@
+services:
+  shorten-url-app:
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      DB_HOST: host.docker.internal
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_URL: redis://redis:6379
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - app-networks
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/dist
+    command: sh -c "npm run db:migrate && npm run db:seed && npm run dev"
+    restart: always
+
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-networks
+    restart: always
+
+  redis:
+    image: redis:7
+    ports:
+      - '6379:6379'
+    networks:
+      - app-networks
+    restart: always
+
+volumes:
+  postgres_data:
+
+networks:
+  app-networks:
+    driver: bridge
