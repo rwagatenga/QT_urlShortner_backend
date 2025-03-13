@@ -1,112 +1,48 @@
-# Auth Service
+### NVM
 
-The `auth-service` is a Node.js application for managing user authentication and authorization. It includes user registration, login, email verification, token-based authentication, and OAuth integrations with Google and LinkedIn.
-
----
-
-## Table of Contents
-
-- [Features](#features)
-- [Getting Started](#getting-started)
-  - [Installation](#installation)
-  - [Environment Variables](#environment-variables)
-  - [Database Setup](#database-setup)
-- [Scripts](#scripts)
-- [API Documentation](#api-documentation)
-- [Dependencies](#dependencies)
-- [License](#license)
-
----
-
-## Features
-
-- User Registration with role-based access (`candidate` or `company`).
-- Email verification using JWT tokens.
-- Login with email and password.
-- Token refresh endpoint.
-- OAuth integration with Google and LinkedIn.
-- API documentation with Swagger.
-- Sequelize ORM for database interaction.
-- TypeScript for static typing.
-- Prettier and ESLint for code quality.
-
----
-
-## Getting Started
-
-### Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone <repository-url>
-   cd auth-service
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+```
+nvm use
+```
 
 ### Environment Variables
 
-Create a `.env` file in the project root and configure the following variables:
+Create a `.env` file and configure the following variables:
 
-```.env
-cp .env.example .env
+| Variable               | Description                       | Example Value                                    |
+| ---------------------- | --------------------------------- | ------------------------------------------------ |
+| `PORT`                 | Application port                  | `5001`                                           |
+| `DB_HOST`              | Database host                     | `localhost`                                      |
+| `DB_PORT`              | Database port                     | `5432`                                           |
+| `DB_USER`              | Database username                 | `auth-service`                                   |
+| `DB_PASSWORD`          | Database password                 | `your_db_password`                               |
+| `DB_NAME`              | Database name                     | `user_auth_service_db`                           |
+| `JWT_SECRET`           | Secret key for JWT authentication | `your_jwt_secret`                                |
+| `EMAIL_USER`           | Email username                    | `your_email@example.com`                         |
+| `EMAIL_PASSWORD`       | Email password                    | `your_email_password`                            |
+| `EMAIL_SERVICE`        | Email service provider            | `gmail`                                          |
+| `EMAIL_HOST`           | Email SMTP host                   | `smtp.gmail.com`                                 |
+| `EMAIL_PORT`           | Email SMTP port                   | `465`                                            |
+| `GOOGLE_CLIENT_ID`     | Google OAuth Client ID            | `your_google_client_id`                          |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth Client Secret        | `your_google_client_secret`                      |
+| `ACCESS_TOKEN_SECRET`  | Secret for access tokens          | `auth_access_token_secret`                       |
+| `REFRESH_TOKEN_SECRET` | Secret for refresh tokens         | `auth_refresh_token_secret`                      |
+| `SESSION_SECRET`       | Secret for session encryption     | `auth_secret_session`                            |
+| `REDIRECT_URI`         | Google OAuth Redirect URI         | `http://localhost:5001/api/auth/google/callback` |
+| `FRONTEND_URL`         | Frontend application URL          | `http://localhost:8080`                          |
+| `BASE_URL`             | Backend API base URL              | `http://localhost:5001`                          |
+| `REDIS_URL`            | Redis connection URL              | `redis://localhost:6379`                         |
+| `REDIS_HOST`           | Redis host                        | `redis`                                          |
+| `REDIS_PORT`           | Redis port                        | `6379`                                           |
 
-```
+#### Notes:
 
-### Database Setup
-
-1. Run migrations:
-
-   ```bash
-   npm run db:migrate
-   ```
-
-2. (Optional) Seed the database:
-   ```bash
-   npm run db:seed
-   ```
-
----
-
-## Scripts
-
-The following scripts are available:
-
-| Script                    | Description                                       |
-| ------------------------- | ------------------------------------------------- |
-| `npm run build`           | Lints, formats, and compiles the TypeScript code. |
-| `npm run dev`             | Starts the development server.                    |
-| `npm run test`            | Runs tests (currently not implemented).           |
-| `npm run lint`            | Lints the code using ESLint.                      |
-| `npm run format:fix`      | Fixes formatting issues using Prettier.           |
-| `npm run db:migrate`      | Runs database migrations.                         |
-| `npm run db:seed`         | Seeds the database.                               |
-| `npm run db:migrate:undo` | Reverts the last migration.                       |
-| `npm run db:seed:undo`    | Reverts the last seed.                            |
-
----
-
-## API Documentation
-
-API documentation is available at:
-
-```
-http://localhost:<PORT>/api-docs
-```
-
-## Dependencies
-
-Key dependencies:
-
-- **Backend**: Express, Sequelize, Passport, JWT.
-- **Authentication**: Passport strategies for Google and LinkedIn.
-- **Database**: PostgreSQL, Sequelize ORM.
-- **Code Quality**: TypeScript, ESLint, Prettier.
-
-Refer to `package.json` for the complete list.
+- Replace sensitive values with actual credentials in your `.env` file.
+- **DO NOT** commit your `.env` file to version control. Add it to `.gitignore`.
+- To generate a secure `VITE_ENCRYPTION_KEY`, run:
+  ```sh
+  openssl rand -hex 32
+  ```
 
 ---
+
+This ensures better security while keeping the README informative. Let me know if you want any further refinements! 🚀
